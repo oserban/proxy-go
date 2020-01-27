@@ -9,33 +9,31 @@ import (
 	"fmt"
 )
 
-func HandleGetResourceRequestEnv()
+func HandleGetResourceRequestEnv(s3Client *s3Client.S3Client) ( func(*routing.Context) error ) {
+	/* This handler checks permission + formats. The s3client function checks the existence of objects */
+	return func(ctx *routing.Context) error {
+		store := ctx.Param("store")
+		project := ctx.Param("project")
+		resource := ctx.Param("resource")
 
-func HandleGetResourceRequest(ctx *routing.Context) error {
-	store := ctx.Param("store")
-	project := ctx.Param("project")
-	resource := ctx.Param("resource")
+		if (strings.HasSuffix(resource, ".ovemeta")) {
+			ctx.SetStatusCode(fasthttp.StatusUnauthorized)
+			return fmt.Errorf("%v: Cannot get resource \"%v\"", definitions.ACCESS_DENIED_ERROR, resource)
+		}
 
-	// need to check for nil / "" ?
+		/* check credentials */
 
-	if (strings.HasSuffix(resource, ".ovemeta")) {
-		fmt.Fprintf(ctx, "%v: Cannot get resource \"%v\"", definitions.ACCESS_DENIED_ERROR, resource)
-		return fmt.Errorf("%v: Cannot get resource \"%v\"", definitions.ACCESS_DENIED_ERROR, resource)
+		/* getting the file */
+		object, err, statusCode := s3Client.DownloadFile(store, project, resource)
+		if (err != nil) {
+			ctx.SetStatusCode(statusCode)
+			return fmt.Errorf("%v", err)
+		}
+
+		ctx.SetContentType("foo/bar")
+		ctx.SetStatusCode(fasthttp.StatusOK)
+		ctx.SetBodyStream(object.Data, int(object.Length))
+
+		return nil
 	}
-
-	/* check credentials */
-
-	/* getting the file */
-	object, err := s3Client.DownloadFile(store, project, resource)
-	if (err != nil) {
-		fmt.Fprintf(ctx, "%v: Cannot get resource \"%v\"", definitions.SERVER_ERROR, resource)
-		return fmt.Errorf("%v: Cannot get resource \"%v\"", definitions.SERVER_ERROR, resource)
-	}
-
-	ctx.SetContentType("foo/bar")
-	ctx.SetStatusCode(fasthttp.StatusOK)
-	ctx.SetBodyStream(object.data, object.length)
-
-	// then update status code
-	// ctx.SetStatusCode(fasthttp.StatusNotFound)
 }

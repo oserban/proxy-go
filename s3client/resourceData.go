@@ -5,11 +5,11 @@ import (
 )
 
 type ResourceData struct {
-	name string
-	resource string
-	contentType string
-	etag string
-	modifiedDate string
-	length int64
-	data io.Reader
+	Name string
+	Resource string
+	ContentType string
+	Etag string
+	ModifiedDate string
+	Length int64
+	Data io.Reader
 }
