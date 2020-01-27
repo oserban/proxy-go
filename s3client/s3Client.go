@@ -33,11 +33,12 @@ func CreateConnectedClient(config S3ClientConfig) S3Client {
 		fmt.Println(err)
 		panic("Cannot list buckets.")
 	}
-	fmt.Println("Connected to object store.")
-	fmt.Println("Buckets:")
+	fmt.Printf("Connected to object store \"%v\".\n", config.Name)
+	fmt.Printf("Buckets in \"%v\":\n", config.Name)
 	for _, bucket := range buckets {
-		fmt.Println(bucket)
+		fmt.Printf(" - %v\n", bucket)
 	}
+	fmt.Println()
 	return S3Client { minioClient }
 }
 
@@ -47,8 +48,6 @@ func (client *S3Client)DownloadFile(store, project, resource string) (ResourceDa
 	if (strings.HasSuffix(resource, ".ovemeta")) {
 		return data, fmt.Errorf("%v: Cannot get resource \"%v\".", definitions.ACCESS_DENIED_ERROR, resource), fasthttp.StatusUnauthorized 
 	}
-
-	/* check if store exists */
 
 	/* check if project (bucket) exists */
 	if found, _ := client.minioClient.BucketExists(project); !found {
