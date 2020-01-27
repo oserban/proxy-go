@@ -1,0 +1,15 @@
+{
+    "Stores": [
+        {
+            "Name": "minio",
+            "Endpoint": "localhost:9000",
+            "AccessKeyID": "admin",
+            "SecretAccessKey": "password",
+            "UseSSL": false
+        }
+    ],
+    "AccessTokens": [
+        "iAmATeapot",
+        "youMustBeJokingMrFeynman"
+    ]
+}

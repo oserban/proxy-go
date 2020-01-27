@@ -10,10 +10,11 @@ import (
 )
 
 type S3ClientConfig struct {
-	Endpoint string
-	AccessKeyID string
-	SecretAccessKey string
-	UseSSL bool
+	Name string `json:"Name"`
+	Endpoint string `json:"Endpoint"`
+	AccessKeyID string `json:"AccessKeyID"`
+	SecretAccessKey string `json:"SecretAccessKey"`
+	UseSSL bool `json:"UseSSL"`
 }
 
 type S3Client struct {
