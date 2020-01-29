@@ -25,7 +25,7 @@ func main() {
 	json.Unmarshal(byteValue, &config)
 
 	/* create connections */
-	clientpool := s3Client.InitialiseS3ClientPool(config.Stores)
+	clientpool := s3Client.InitialiseS3ClientPool(config.NumberOfClientsPerHost, config.Stores)
 
 	router := routing.New()
 	

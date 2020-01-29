@@ -1,15 +1,16 @@
 {
     "Stores": [
         {
-            "Name": "minio",
-            "Endpoint": "localhost:9000",
-            "AccessKeyID": "admin",
-            "SecretAccessKey": "password",
+            "Name": "GDO-dev",
+            "Endpoint": "gdo-objdev.dsi.ic.ac.uk:55555",
+            "AccessKeyID": "C72OARRAM3WYPG22WOBG",
+            "SecretAccessKey": "ER7MZLNEy4A4fDTkXdgRQRpienyxvMKf+yh02sNQ",
             "UseSSL": false
         }
     ],
     "AccessTokens": [
         "iAmATeapot",
         "youMustBeJokingMrFeynman"
-    ]
+    ],
+    "NumberOfClientsPerHost": 10
 }

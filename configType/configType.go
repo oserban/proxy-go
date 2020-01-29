@@ -7,4 +7,5 @@ import (
 type Config struct {
 	Stores []s3Client.S3ClientConfig `json:"Stores"`
 	AccessTokens []string `json:"AccessTokens"`
+	NumberOfClientsPerHost int `json:"NumberOfClientsPerHost"`
 }
