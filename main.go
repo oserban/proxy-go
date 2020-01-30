@@ -6,9 +6,11 @@ import (
 	"github.com/sou-chon/proxy-go/s3Client"
 	"github.com/sou-chon/proxy-go/configType"
 	"fmt"
+	"github.com/sou-chon/proxy-go/mongoClient"
 	"encoding/json"
 	"os"
 	"io/ioutil"
+
 )
 
 func main() {
@@ -31,10 +33,16 @@ func main() {
 	
 	router.Get("/<store>/<project>/<resource:[^ ]+>", HandleGetResourceRequestEnv(&clientpool))
 
+	mongo := mongoClient.CreateConnectedClient()
+
+	router.Get("/mongo", HandleMongoResourceRequestEnv(&mongo))
+
 	router.Get("/", func(ctx *routing.Context) error {
 		fmt.Fprintf(ctx, "Go to /<store>/<project>/<resource> for objects.")
 		return nil
 	})
+
+
 	
 	panic(fasthttp.ListenAndServe(":8080", router.HandleRequest))
 }
