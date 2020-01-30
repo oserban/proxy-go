@@ -29,7 +29,7 @@ func main() {
 
 	router := routing.New()
 	
-	router.Get("/<store>/<project>/<resource:[^ ]+>", HandleGetResourceRequestEnv(&clientpool))
+	router.Get("/<store>/<project>/<resource:[^ ]+>", HandleGetResourceRequestEnv(&clientpool, config.AccessTokens))
 
 	router.Get("/", func(ctx *routing.Context) error {
 		fmt.Fprintf(ctx, "Go to /<store>/<project>/<resource> for objects.")
